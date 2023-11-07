@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-const debug = true;
+const verbose = true;
+const debug = false;
 const host = '0.0.0.0';
 const port = 80;
 const url_list = '/var/lib/single-file-proxy-hosts';
@@ -55,7 +56,7 @@ const server = createServer(async (req, res) => {
   try {
     const url = req.url.substring(1);
     if (should_handle_url(url, hosts_to_handle)) {
-      if (debug) {
+      if (verbose) {
         console.log(`fetching ${url}`);
       }
 
@@ -70,6 +71,9 @@ const server = createServer(async (req, res) => {
         url,
       ]);
       fetcher.stdout.on('data', (data) => {
+        if (debug) {
+          console.log('got data chunk');
+        }
         res.write(data);
       });
       fetcher.stderr.on('data', (data) => {
