@@ -70,9 +70,6 @@ const server = createServer(async (req, res) => {
         url,
       ]);
       fetcher.stdout.on('data', (data) => {
-        if (debug) {
-          console.log('got data chunk');
-        }
         res.write(data);
       });
       fetcher.stderr.on('data', (data) => {
